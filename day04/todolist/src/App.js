@@ -1,12 +1,161 @@
-import "./App.css"
+// import "./App.css";
+// import {useState} from "react";
 
-//export default ()=>{
+// const App = ()=>{
+//     // 전역변수를 state로 만들어 주어야 re rendering 된다.
+//     // 구조분해 할당 = state변수, setter함수
+//     const [name, setName] = useState("Todo List");
+//     const [todoList, setTodoLilst] = useState([
+//         {no:101, title:"공부하기", done: false},
+//         {no:102, title:"자바하기", done: false},
+//         {no:103, title:"리액트하기", done: false},
+//         {no:104, title:"스프링하기", done: false}
+//     ]);
+//     const [noCnt, setNoCnt] = useState(105);
 
-//}
+//     const onClickEvent = () => {
+//         // 기존 내용에 새 내용을 추가 해서 새 배열을 생성
+//         setTodoLilst([...todoList, {no:noCnt, title:"점심하기", done: false}]);
+//         setNoCnt((cnt)=>cnt+1);
+//     }
+
+//     return (<div className="todoList">
+//         <div className="App-header">
+//             <h1>{name} App</h1>
+//         </div>
+//         <div className="input-title">
+//             <button onClick={onClickEvent}>Save</button>
+//         </div>
+//         <div className="list-body">
+//             <div>
+//             <ul>
+//                 {
+//                     // .map()은 새 배열을 반환한다.
+//                     // {} 없이 한줄에 사용하면 return 생략.
+//                     // Object내용을 list 태그로 변환 해서 새 배열 생성.
+//                     todoList.map((item)=> {
+//                         return (<li key={item.no}>
+//                             <input type="checkbox" />
+//                             {item.title}
+//                             <button>Edit</button>
+//                             <button>Delte</button>
+//                         </li>);
+//                     })
+//                 }
+//             </ul>
+//             </div>
+//         </div>
+//     </div>);
+// }        오전내용
+
+// export default App;
+
+
+import "./App.css";
+import {useState} from "react";
+import ItemRow from "./ItemRow";
 
 const App = ()=>{
-    return (<div className="App-header">
-        <h1>App</h1>
-    </div>)
+    // 전역변수를 state로 만들어 주어야 re rendering 된다.
+    // 구조분해 할당 = state변수, setter함수
+    const [name, setName] = useState("Todo List");
+    const [todoList, setTodoLilst] = useState([
+        {no:101, title:"공부하기", done: false},
+        {no:102, title:"자바하기", done: true},
+        {no:103, title:"리액트하기", done: false},
+        {no:104, title:"스프링하기", done: false}
+    ]);
+    const [noCnt, setNoCnt] = useState(105);
+
+    const [inputTitle, setInputTtile] = useState("");
+    const [outputTitle, setOutputTtile] = useState("");
+
+
+    const [flag, setFlag] = useState(false);
+
+    const onClickEvent = () => {
+        // 기존 내용에 새 내용을 추가 해서 새 배열을 생성
+        setTodoLilst([...todoList, {no:noCnt, title:inputTitle, done: false}]);
+        setNoCnt(noCnt+1);
+        setInputTtile("");
+    }
+
+    const onChangeTitle = (e) => {
+        setInputTtile(e.target.value);
+    }
+
+    const onDelete = ({no, title, done}) => {
+        const newList = todoList.filter((todo)=> {
+            return todo.no != no;
+        });
+        setTodoLilst(newList);
+    };
+
+    const onDoneFlag = ({no, title, done})=>{
+        const newTodoList = [...todoList];
+        todoList.forEach((item, idx)=> {
+            if(item.no == no) {
+                newTodoList[idx].done = !done;
+            }
+        });
+        setTodoLilst(newTodoList);
+    };
+
+    const onEdit = ({no, title, done})=>{
+        const newTodoList = [...todoList];
+        todoList.forEach((item, idx)=> {
+            if(item.no == no) {
+                newTodoList[idx].done = done;
+                newTodoList[idx].title = title;
+            }
+        });
+        setTodoLilst(newTodoList);
+        console.log(newTodoList);
+    };
+
+    // 취소선 스타일 설정
+    const lineThroughClass = {textDecoration:"line-through", color:"blue"}
+
+    return (<div className="todoList">
+        <div className="App-header">
+            <h1>{name} App</h1>
+        </div>
+        <div className="input-title">
+          <div className="container" style={{padding: "10px"}}>
+            <div className="input-group mb-3">
+                <input value={inputTitle} onChange={onChangeTitle} type="text" className="form-control"/>
+                <div className="input-group-append">
+                    <button className="btn btn-success" onClick={onClickEvent}>Save</button>
+                </div>
+            </div>
+          </div>
+        </div>
+        <div className="list-body">
+          <div className="container">
+          <table className="table table-hover">
+            <thead>
+                <tr style={{textAlign:"center"}}>
+                    <th>Done</th>
+                    <th>Title</th>
+                    <th>Buttons</th>
+                </tr>
+                </thead>
+                <tbody>
+                {todoList.map((item)=> {
+                    return(<tr key={item.no}>
+                        <td colSpan={3} style={{padding:"0px"}}>
+                            <ItemRow item={item} onDoneFlag={onDoneFlag} onDelete={onDelete} onEdit={onEdit} />
+                        </td>
+                    </tr>)
+                })}
+                </tbody>
+            </table>
+            <ul>
+                
+            </ul>
+          </div>
+        </div>
+    </div>);
 }
-export default App
+
+export default App;
