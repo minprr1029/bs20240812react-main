@@ -13,10 +13,14 @@ const Input = ({onClickEvent}) => {
             <input autoFocus ref={inputFocus} value={inputTitle} onChange={(e)=> setInputTtile(e.target.value)} type="text" className="form-control"/>
             <div className="input-group-append">
                 <button className="btn btn-success" onClick={(e)=>{
+                    if(inputTitle === "" || inputTitle === null) {
+                        alert("내용이 없습니다!");
+                        inputFocus.current.focus();
+                        return;
+                    }
                     onClickEvent(inputTitle);
                     setInputTtile("");
                     // useRef() 훅 사용 focus 잡아준다.
-                    console.dir(inputFocus.current);
                     inputFocus.current.focus();
                 }}>Save</button>
             </div>

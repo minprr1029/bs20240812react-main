@@ -34,7 +34,6 @@ const ItemRow = ({item, onDoneFlag, onDelete, onEdit})=>{
           <div className="input-group-append">
               <button onClick={()=>{
                 // edit 버튼을 클릭하면 blur가 먼저 호출...
-                console.log("edit ...:", titleTmp);
                 setOutputTtile(titleTmp);
                 onEdit({no:item.no, title:titleTmp, done:item.done});
               }} className="btn btn-primary" type="button">Edit</button>  
