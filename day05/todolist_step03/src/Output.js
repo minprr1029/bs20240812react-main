@@ -1,5 +1,6 @@
 import ItemRow from "./ItemRow";
-const Output = ({todoList,onDelete, onDoneFlag, onEdit}) => {
+
+const Output = ({todoList, onDelete, onDoneFlag, onEdit}) => {
     return (
     <div className="list-body">
           <div className="container">
