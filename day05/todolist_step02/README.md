@@ -1,3 +1,20 @@
+#TOdoList 예제
+- 컴포넌트 분리
+- 이벤트 핸들러
+- useState 훅
+- useref 훅
+
+### 미리 보기
+![todoList 실행 화면](./todolist-img.png)
+
+
+
+
+
+
+
+
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
